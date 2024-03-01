@@ -213,7 +213,17 @@
             // Resto de tu código para el juego...
         }
 
+        function playButtonSound() {
+            buttonSound.currentTime = 0;
+            buttonSound.play();
+        }
+
         function showChangeMapMenu() {
+            // Pausar todos los sonidos
+            jumpSound.pause();
+            jumpSound.currentTime = 0;
+            shootSound.pause();
+            shootSound.currentTime = 0;
             // Oculta el menú principal
             document.getElementById('menu').style.display = 'none';
 
@@ -222,9 +232,12 @@
 
             // Oculta al jugador
             player.style.display = 'none';
+
+            playButtonSound();
         }
 
         function showAstroRefugio() {
+        
             // Oculta el menú principal
             document.getElementById('menu').style.display = 'none';
 
@@ -233,7 +246,9 @@
 
             // Oculta al jugador
             player.style.display = 'none';
+
         }
+
 
         function returnToMenu() {
             // Muestra el menú principal
