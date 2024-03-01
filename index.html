@@ -205,6 +205,8 @@
         }
 
         function startGame() {
+            playButtonSound();
+
             alert("¡Juego iniciado!");
 
             // Cambiar el fondo según el mapa seleccionado
@@ -215,8 +217,6 @@
 
             // Mostrar al jugador
             player.style.display = 'block';
-
-            playButtonSound();
 
             // Resto de tu código para el juego...
         }
