@@ -197,6 +197,12 @@
         // Sonidos
         const jumpSound = new Audio('jump.mp3');
         const shootSound = new Audio('disparar.mp3');
+        const buttonSound = new Audio('boton_inicial.mp3');
+
+        function playButtonSound() {
+            buttonSound.currentTime = 0;
+            buttonSound.play();
+        }
 
         function startGame() {
             alert("¡Juego iniciado!");
@@ -210,12 +216,9 @@
             // Mostrar al jugador
             player.style.display = 'block';
 
-            // Resto de tu código para el juego...
-        }
+            playButtonSound();
 
-        function playButtonSound() {
-            buttonSound.currentTime = 0;
-            buttonSound.play();
+            // Resto de tu código para el juego...
         }
 
         function showChangeMapMenu() {
@@ -247,6 +250,7 @@
             // Oculta al jugador
             player.style.display = 'none';
 
+            playButtonSound();
         }
 
 
@@ -256,6 +260,8 @@
 
             // Oculta el menú de AstroRefugio
             document.getElementById('astroRefugioMenu').style.display = 'none';
+
+            playButtonSound();
         }
 
         function changeMap(button, mapNumber) {
