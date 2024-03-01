@@ -46,6 +46,27 @@
             background-color: #2980b9;
         }
 
+        #menu #startButton {
+            background-color: transparent; /* Establece el color de fondo como transparente */
+            border: none; /* Elimina el borde del botón */
+            padding: 0; /* Elimina el relleno interno del botón */
+            cursor: pointer; /* Cambia el cursor a una mano al pasar por encima del botón */
+            width: 200px;
+            height: 100px; /* Ajusta la altura según el tamaño de la imagen */
+            transition: transform 0.3s ease; /* Agrega una transición suave al cambio de tamaño */
+            box-shadow: none; /* Elimina cualquier sombra */
+            vertical-align: middle; /* Alinea verticalmente la imagen con el texto */
+        }
+
+        #menu #startButton:hover {
+           transform: scale(1.1); /* Aumenta ligeramente el tamaño al pasar el ratón sobre el botón */
+        }
+        
+        #menu #startButton img {
+            width: 100%;
+            height: 100%;
+        }
+
         #player {
             position: absolute;
             width: 100px;
@@ -101,6 +122,28 @@
 
         #changeMapMenu button.selected {
             border: 2px solid #001f3f;
+        }
+
+        #startButton {
+            background-color: transparent; /* Hace que el fondo del botón sea transparente */
+            border: none; /* Elimina el borde del botón */
+            padding: 0; /* Elimina el relleno interno del botón */
+            cursor: pointer; /* Cambia el cursor a una mano al pasar por encima del botón */
+        }
+
+        #startButton {
+            background-color: transparent; /* Establece el color de fondo como transparente */
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            width: 200px;
+            height: 100px; /* Ajusta la altura según el tamaño de la imagen */
+            transition: transform 0.3s ease; /* Agrega una transición suave al cambio de tamaño */
+            box-shadow: none; /* Elimina cualquier sombra */
+        }
+
+        #startButton:hover {
+            transform: scale(1.1); /* Aumenta ligeramente el tamaño al pasar el ratón sobre el botón */
         }
 
         #previewImages {
@@ -164,7 +207,9 @@
 
     <div id="menu">
         <img src="AstroMin.png" alt="Logo de AstroMin">
-        <button onclick="startGame()">Iniciar Juego</button>
+        <button onclick="startGame()" id="startButton">
+            <img src="Start Game.png" alt="Iniciar Juego">
+        </button>
         <button onclick="showChangeMapMenu()">Cambiar Mapa</button>
         <button onclick="showAstroRefugio()">Ir a AstroRefugio</button>
     </div>
