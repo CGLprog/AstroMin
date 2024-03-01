@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AstroMinIA</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        #menu {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background-image: url('pantalla_principal.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        #menu img {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        #menu button {
+            padding: 10px 20px;
+            font-size: 1.5em;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        #menu button:hover {
+            background-color: #2980b9;
+        }
+
+        #player {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-image: url('Astronauta.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: transform 0.3s ease;
+            display: none; /* Oculto inicialmente el jugador */
+        }
+
+        .bullet {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-image: url('disparo.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        #changeMapMenu {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            background-image: url('pantalla_menu_mapas.png');
+            background-size: cover;
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 2;
+        }
+
+        #changeMapMenu button {
+            padding: 10px 20px;
+            font-size: 1.5em;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s ease;
+            margin-top: 20px;
+        }
+
+        #changeMapMenu button:hover {
+            background-color: #2980b9;
+        }
+
+        #changeMapMenu button.selected {
+            border: 2px solid #001f3f;
+        }
+
+        #previewImages {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        #previewImages img {
+            width: 80px;
+            height: 80px;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+
+        #previewImages img:hover {
+            border: 2px solid #001f3f;
+        }
+
+        #astroRefugioMenu {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('astrorefugio.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 2;
+        }
+
+        #astroRefugioContent {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        #astroRefugioContent button {
+            padding: 10px 20px;
+            font-size: 1.5em;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s ease;
+            margin-top: 20px;
+        }
+
+        #astroRefugioContent button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="menu">
+        <img src="AstroMinIA.png" alt="Logo de AstroMinIA">
+        <button onclick="startGame()">Iniciar Juego</button>
+        <button onclick="showChangeMapMenu()">Cambiar Mapa</button>
+        <button onclick="showAstroRefugio()">Ir a AstroRefugio</button>
+    </div>
+
+    <div id="player"></div>
+
+    <div id="changeMapMenu">
+        <button onclick="changeMap(this, 1)">Mapa 1</button>
+        <button onclick="changeMap(this, 2)">Mapa 2</button>
+        <div id="previewImages">
+            <img src="fondo_azul_rojo.png" alt="Vista previa Mapa 1" onclick="changeMapByPreview(1)">
+            <img src="fondo_morado.jpg" alt="Vista previa Mapa 2" onclick="changeMapByPreview(2)">
+        </div>
+    </div>
+
+    <div id="astroRefugioMenu">
+        <div id="astroRefugioContent">
+            <button onclick="returnToMenu()">Regresar</button>
+        </div>
+    </div>
+
+    <script>
+        const player = document.getElementById('player');
+        let velocity = 0;
+        let jumping = false;
+        let facingRight = true;
+        let currentMap = 'fondo_azul_rojo.png'; // Fondo por defecto
+        let canShoot = true; // Variable de control para el tiempo de recarga
+
+        // Sonidos
+        const jumpSound = new Audio('jump.mp3');
+        const shootSound = new Audio('disparar.mp3');
+
+        function startGame() {
+            alert("¡Juego iniciado!");
+
+            // Cambiar el fondo según el mapa seleccionado
+            document.body.style.backgroundImage = `url('${currentMap}')`;
+
+            // Ocultar el menú principal
+            document.getElementById('menu').style.display = 'none';
+
+            // Mostrar al jugador
+            player.style.display = 'block';
+
+            // Resto de tu código para el juego...
+        }
+
+        function showChangeMapMenu() {
+            // Oculta el menú principal
+            document.getElementById('menu').style.display = 'none';
+
+            // Muestra el menú de cambio de mapa
+            document.getElementById('changeMapMenu').style.display = 'block';
+
+            // Oculta al jugador
+            player.style.display = 'none';
+        }
+
+        function showAstroRefugio() {
+            // Oculta el menú principal
+            document.getElementById('menu').style.display = 'none';
+
+            // Muestra el menú de AstroRefugio
+            document.getElementById('astroRefugioMenu').style.display = 'flex';
+
+            // Oculta al jugador
+            player.style.display = 'none';
+        }
+
+        function returnToMenu() {
+            // Muestra el menú principal
+            document.getElementById('menu').style.display = 'block';
+
+            // Oculta el menú de AstroRefugio
+            document.getElementById('astroRefugioMenu').style.display = 'none';
+        }
+
+        function changeMap(button, mapNumber) {
+            // Desmarcar todos los botones
+            const buttons = document.querySelectorAll('#changeMapMenu button');
+            buttons.forEach(btn => btn.classList.remove('selected'));
+
+            // Marcar el botón seleccionado
+            button.classList.add('selected');
+
+            // Actualizar el fondo actual
+            currentMap = mapNumber === 1 ? 'fondo_azul_rojo.png' : 'fondo_morado.jpg';
+
+            // Cambiar el fondo según el mapa seleccionado
+            document.body.style.backgroundImage = `url('${currentMap}')`;
+
+            // Oculta el menú de cambio de mapa
+            document.getElementById('changeMapMenu').style.display = 'none';
+
+            // Muestra al jugador
+            player.style.display = 'block';
+        }
+
+        function changeMapByPreview(mapNumber) {
+            // Llama a la función existente changeMap con el número de mapa
+            changeMap(document.querySelector(`#changeMapMenu button:nth-child(${mapNumber})`), mapNumber);
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'a' || event.key === 'A') {
+                velocity = -5;
+                flipPlayer(false);
+            } else if (event.key === 'd' || event.key === 'D') {
+                velocity = 5;
+                flipPlayer(true);
+            } else if (event.key === 'w' || event.key === 'W') {
+                jump();
+            } else if ((event.key === ' ' || event.key === 'Spacebar') && canShoot) {
+                shoot();
+                canShoot = false;
+                setTimeout(() => {
+                    canShoot = true;
+                }, 100); // 100 milisegundos de tiempo de recarga
+            }
+        });
+
+        document.addEventListener('keyup', function(event) {
+            if ((event.key === 'a' || event.key === 'A') || (event.key === 'd' || event.key === 'D')) {
+                velocity = 0;
+            }
+        });
+
+        function flipPlayer(right) {
+            const scaleX = right ? 1 : -1;
+            player.style.transform = `scaleX(${scaleX})`;
+            facingRight = right;
+        }
+
+        function movePlayer() {
+            const newLeft = (parseFloat(player.style.left) || 0) + velocity;
+
+            if (newLeft >= document.body.getBoundingClientRect().left && newLeft + player.offsetWidth <= document.body.getBoundingClientRect().right) {
+                player.style.left = newLeft + 'px';
+            }
+
+            requestAnimationFrame(movePlayer);
+        }
+
+        function jump() {
+            if (!jumping) {
+                jumping = true;
+                let startTime = null;
+
+                jumpSound.currentTime = 0;
+                jumpSound.play();
+
+                function jumpAnimation(timestamp) {
+                    if (!startTime) startTime = timestamp;
+
+                    const progress = timestamp - startTime;
+                    const displacement = -0.5 * 9.8 * (progress / (1000 / 2)) ** 2 + 120 * (progress / (1000 / 2));
+
+                    if (displacement < 0) {
+                        player.style.bottom = '10px';
+                        jumping = false;
+                    } else {
+                        player.style.bottom = displacement + 'px';
+                        requestAnimationFrame(jumpAnimation);
+                    }
+                }
+
+                requestAnimationFrame(jumpAnimation);
+            }
+        }
+
+        function shoot() {
+            shootSound.currentTime = 0;
+            shootSound.play();
+
+            const bullet = document.createElement('div');
+            bullet.className = 'bullet';
+
+            const playerRect = player.getBoundingClientRect();
+            const bulletLeft = facingRight ? playerRect.right : playerRect.left - 20;
+
+            bullet.style.left = bulletLeft + 'px';
+            bullet.style.bottom = (parseFloat(player.style.bottom) || 10) + 'px';
+
+            document.body.appendChild(bullet);
+
+            const bulletStep = 15;
+
+            function moveBullet() {
+                const currentLeft = parseFloat(bullet.style.left) || 0;
+                bullet.style.left = (facingRight ? currentLeft + bulletStep : currentLeft - bulletStep) + 'px';
+
+                if ((facingRight && currentLeft < window.innerWidth) || (!facingRight && currentLeft > 0)) {
+                    requestAnimationFrame(moveBullet);
+                } else {
+                    document.body.removeChild(bullet);
+                }
+            }
+
+            requestAnimationFrame(moveBullet);
+        }
+
+        movePlayer();
+    </script>
+
+</body>
+</html>
+
