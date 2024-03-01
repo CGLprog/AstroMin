@@ -50,7 +50,7 @@
             position: absolute;
             width: 100px;
             height: 100px;
-            background-image: url('Astronauta.png');
+            background-image: url('astronauta.png');
             background-size: contain;
             background-repeat: no-repeat;
             bottom: 10px;
@@ -127,7 +127,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('astrorefugio.png');
+            background-image: url('astrorefugio.jpg');
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
@@ -163,7 +163,7 @@
 <body>
 
     <div id="menu">
-        <img src="AstroMinIA.png" alt="Logo de AstroMinIA">
+        <img src="AstroMin.png" alt="Logo de AstroMin">
         <button onclick="startGame()">Iniciar Juego</button>
         <button onclick="showChangeMapMenu()">Cambiar Mapa</button>
         <button onclick="showAstroRefugio()">Ir a AstroRefugio</button>
@@ -191,7 +191,7 @@
         let velocity = 0;
         let jumping = false;
         let facingRight = true;
-        let currentMap = 'fondo_azul_rojo.png'; // Fondo por defecto
+        let currentMap = 'Espacio Profundo.png'; // Fondo por defecto
         let canShoot = true; // Variable de control para el tiempo de recarga
 
         // Sonidos
@@ -252,7 +252,7 @@
             button.classList.add('selected');
 
             // Actualizar el fondo actual
-            currentMap = mapNumber === 1 ? 'fondo_azul_rojo.png' : 'fondo_morado.jpg';
+            currentMap = mapNumber === 1 ? 'Espacio Profundo.png' : 'Galaxia Morada.jpg';
 
             // Cambiar el fondo según el mapa seleccionado
             document.body.style.backgroundImage = `url('${currentMap}')`;
