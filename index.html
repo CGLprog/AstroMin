@@ -236,7 +236,7 @@
         let velocity = 0;
         let jumping = false;
         let facingRight = true;
-        let currentMap = 'Espacio Profundo.png'; // Fondo por defecto
+        let currentMap = null; // Mantenemos un valor null para verificar si se ha seleccionado un mapa
         let canShoot = true; // Variable de control para el tiempo de recarga
 
         // Sonidos
@@ -251,6 +251,12 @@
 
         function startGame() {
             playButtonSound();
+
+            if (currentMap === null) {
+                alert("Por favor, selecciona un mapa antes de comenzar el juego.");
+                showChangeMapMenu();
+                return;
+            }
 
             alert("¡Juego iniciado!");
 
