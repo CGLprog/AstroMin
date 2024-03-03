@@ -223,6 +223,7 @@
             <img src="Espacio Profundo.png" alt="Vista previa Mapa 1" onclick="changeMapByPreview(1)">
             <img src="Galaxia Morada.jpg" alt="Vista previa Mapa 2" onclick="changeMapByPreview(2)">
         </div>
+        <button onclick="returnToMenu()">Regresar al Menú</button>
     </div>
 
     <div id="astroRefugioMenu">
@@ -269,7 +270,30 @@
             // Mostrar al jugador
             player.style.display = 'block';
 
-            // Resto de tu código para el juego...
+        }
+
+
+        function returnToMenu() {
+            // Muestra el menú principal
+            document.getElementById('menu').style.display = 'block';
+
+            // Oculta el menú de cambio de mapa
+            document.getElementById('changeMapMenu').style.display = 'none';
+
+            // Oculta el menú de AstroRefugio
+            document.getElementById('astroRefugioMenu').style.display = 'none';
+
+            playButtonSound();
+        }
+
+        function changeMapMenuToMenu() {
+            // Muestra el menú principal
+            document.getElementById('menu').style.display = 'block';
+
+            // Oculta el menú de cambio de mapa
+            document.getElementById('changeMapMenu').style.display = 'none';
+
+            playButtonSound();
         }
 
         function showChangeMapMenu() {
@@ -290,6 +314,7 @@
             playButtonSound();
         }
 
+
         function showAstroRefugio() {
         
             // Oculta el menú principal
@@ -300,17 +325,6 @@
 
             // Oculta al jugador
             player.style.display = 'none';
-
-            playButtonSound();
-        }
-
-
-        function returnToMenu() {
-            // Muestra el menú principal
-            document.getElementById('menu').style.display = 'block';
-
-            // Oculta el menú de AstroRefugio
-            document.getElementById('astroRefugioMenu').style.display = 'none';
 
             playButtonSound();
         }
