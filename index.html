@@ -430,10 +430,11 @@
             bullet.className = 'bullet';
 
             const playerRect = player.getBoundingClientRect();
-            const bulletLeft = facingRight ? playerRect.right : playerRect.left - 20;
+            const bulletLeft = facingRight ? playerRect.right - 10 : playerRect.left - 10;
+            const bulletTop = playerRect.top + (player.offsetHeight / 2) - 10; // 10 is half of bullet's height
 
             bullet.style.left = bulletLeft + 'px';
-            bullet.style.bottom = (parseFloat(player.style.bottom) || 10) + 'px';
+            bullet.style.top = bulletTop + 'px';
 
             document.body.appendChild(bullet);
 
@@ -458,4 +459,3 @@
 
 </body>
 </html>
-
