@@ -428,13 +428,15 @@
 
             const bullet = document.createElement('div');
             bullet.className = 'bullet';
+            bullet.direction = facingRight ? 'right' : 'left'; // Establece la dirección de la bala al disparar
 
             const playerRect = player.getBoundingClientRect();
-            const bulletLeft = facingRight ? playerRect.right - 10 : playerRect.left - 10;
-            const bulletTop = playerRect.top + (player.offsetHeight / 2) - 10; // 10 is half of bullet's height
+            const bulletLeft = facingRight ? playerRect.right : playerRect.left - 20;
+            const bulletTop = playerRect.top + player.offsetHeight * 0.4; // Ajusta la posición vertical de la bala
 
             bullet.style.left = bulletLeft + 'px';
-            bullet.style.top = bulletTop + 'px';
+            bullet.style.top = bulletTop + 'px'; // Establece la posición vertical de la bala
+            bullet.style.bottom = 'auto'; // Asegúrate de que la propiedad bottom esté en auto
 
             document.body.appendChild(bullet);
 
@@ -442,9 +444,9 @@
 
             function moveBullet() {
                 const currentLeft = parseFloat(bullet.style.left) || 0;
-                bullet.style.left = (facingRight ? currentLeft + bulletStep : currentLeft - bulletStep) + 'px';
+                bullet.style.left = (bullet.direction === 'right' ? currentLeft + bulletStep : currentLeft - bulletStep) + 'px';
 
-                if ((facingRight && currentLeft < window.innerWidth) || (!facingRight && currentLeft > 0)) {
+                if ((bullet.direction === 'right' && currentLeft < window.innerWidth) || (bullet.direction === 'left' && currentLeft > 0)) {
                     requestAnimationFrame(moveBullet);
                 } else {
                     document.body.removeChild(bullet);
