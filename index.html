@@ -272,9 +272,22 @@
         const shootSound = new Audio('disparar.mp3');
         const buttonSound = new Audio('boton_inicial.mp3');
 
+        // Música
+        const level1Music = new Audio('Musica Nivel 1.mp3');
+        level1Music.loop = true; // Hacer que la música se repita al finalizar
+
         function playButtonSound() {
             buttonSound.currentTime = 0;
             buttonSound.play();
+        }
+
+        function playLevel1Music() {
+            level1Music.play();
+        }
+
+        function stopLevel1Music() {
+            level1Music.pause();
+            level1Music.currentTime = 0;
         }
 
         function startGame() {
@@ -297,10 +310,14 @@
             // Mostrar al jugador
             player.style.display = 'block';
 
+            // Reproducir música del nivel 1 al iniciar el juego
+            playLevel1Music();
         }
 
-
         function returnToMenu() {
+            // Detener la música del nivel 1 al regresar al menú
+            stopLevel1Music();
+
             // Muestra el menú principal
             document.getElementById('menu').style.display = 'block';
 
@@ -343,7 +360,7 @@
 
 
         function showAstroRefugio() {
-        
+            
             // Oculta el menú principal
             document.getElementById('menu').style.display = 'none';
 
@@ -354,6 +371,25 @@
             player.style.display = 'none';
 
             playButtonSound();
+        }
+
+        function checkPlayerPosition() {
+            const playerRect = player.getBoundingClientRect();
+            const level1Rect = document.getElementById('nivel1');
+
+            if (level1Rect) { // Verifica si el elemento del nivel 1 existe en el DOM
+                const level1Bounds = level1Rect.getBoundingClientRect();
+
+                // Comprueba si el jugador está dentro del nivel 1
+                const isInsideLevel1 = playerRect.top >= level1Bounds.top && playerRect.bottom <= level1Bounds.bottom;
+
+                // Verifica si la música del nivel 1 debe reproducirse o detenerse
+                if (isInsideLevel1) {
+                    playLevel1Music();
+                } else {
+                    stopLevel1Music();
+                }
+            }
         }
 
         function changeMap(button, mapNumber) {
@@ -397,6 +433,8 @@
                 setTimeout(() => {
                     canShoot = true;
                 }, 100); // 100 milisegundos de tiempo de recarga
+            } else if (event.key === 'l' || event.key === 'L') {
+                playLevel1Music();
             }
         });
 
@@ -482,6 +520,19 @@
 
             requestAnimationFrame(moveBullet);
         }
+
+        function playLevel1Music() {
+            if (level1Music.paused) {
+                level1Music.play();
+            } else {
+                level1Music.currentTime = 0;
+            }
+        }
+
+        level1Music.addEventListener('ended', function() {
+            this.currentTime = 0;
+            this.play();
+        });
 
         movePlayer();
     </script>
