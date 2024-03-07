@@ -267,6 +267,7 @@
         let facingRight = true;
         let currentMap = null; // Variable para almacenar el mapa actual
         let canShoot = true; // Variable de control para el tiempo de recarga
+        let musicPlaying = false; // Variable para almacenar el estado de reproducción de la música del nivel 1
 
         // Declaración de sonidos
         const jumpSound = new Audio('jump.mp3');
@@ -283,15 +284,20 @@
             buttonSound.play();
         }
 
-        // Función para reproducir la música del nivel 1
-        function playLevel1Music() {
-            level1Music.play();
+        // Función para manejar el evento de presionar el botón de Mapa 1
+        function playMap1Music() {
+            stopLevel1Music(); // Detener cualquier música que se esté reproduciendo actualmente
+            level1Music.play(); // Reproducir la música del nivel 1
+            musicPlaying = true; // Actualizar el estado de reproducción de la música
         }
 
         // Función para detener la música del nivel 1
         function stopLevel1Music() {
-            level1Music.pause();
-            level1Music.currentTime = 0;
+            if (musicPlaying) {
+                level1Music.pause();
+                level1Music.currentTime = 0;
+                musicPlaying = false;
+            }
         }
 
         // Función para iniciar el juego
@@ -390,6 +396,11 @@
 
             // Muestra al jugador
             player.style.display = 'block';
+
+            // Si se selecciona el mapa 1, reproducir la música del mapa 1
+            if (mapNumber === 1) {
+                playMap1Music();
+            }
         }
 
         // Función para cambiar el mapa según la vista previa seleccionada
@@ -421,10 +432,10 @@
 
         // Función para alternar entre reproducir y detener la música del nivel 1
         function toggleMusic() {
-            if (level1Music.paused) {
-                playLevel1Music();
-            } else {
+            if (musicPlaying) {
                 stopLevel1Music();
+            } else {
+                playLevel1Music();
             }
         }
 
@@ -523,9 +534,15 @@
         function playLevel1Music() {
             if (level1Music.paused) {
                 level1Music.play();
-            } else {
-                level1Music.currentTime = 0;
+                musicPlaying = true; // Actualizar el estado de reproducción de la música
             }
+        }
+
+        // Función para detener la música del nivel 1
+        function stopLevel1Music() {
+            level1Music.pause();
+            level1Music.currentTime = 0;
+            musicPlaying = false; // Actualizar el estado de reproducción de la música
         }
 
         // Evento para repetir la música del nivel 1 al finalizar
