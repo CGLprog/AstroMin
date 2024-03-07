@@ -260,36 +260,41 @@
     </div>
 
     <script>
+        // Declaración de variables globales
         const player = document.getElementById('player');
         let velocity = 0;
         let jumping = false;
         let facingRight = true;
-        let currentMap = null; // Mantenemos un valor null para verificar si se ha seleccionado un mapa
+        let currentMap = null; // Variable para almacenar el mapa actual
         let canShoot = true; // Variable de control para el tiempo de recarga
 
-        // Sonidos
+        // Declaración de sonidos
         const jumpSound = new Audio('jump.mp3');
         const shootSound = new Audio('disparar.mp3');
         const buttonSound = new Audio('boton_inicial.mp3');
 
-        // Música
+        // Declaración de música
         const level1Music = new Audio('Musica Nivel 1.mp3');
         level1Music.loop = true; // Hacer que la música se repita al finalizar
 
+        // Función para reproducir el sonido del botón
         function playButtonSound() {
             buttonSound.currentTime = 0;
             buttonSound.play();
         }
 
+        // Función para reproducir la música del nivel 1
         function playLevel1Music() {
             level1Music.play();
         }
 
+        // Función para detener la música del nivel 1
         function stopLevel1Music() {
             level1Music.pause();
             level1Music.currentTime = 0;
         }
 
+        // Función para iniciar el juego
         function startGame() {
             playButtonSound();
 
@@ -314,6 +319,7 @@
             playLevel1Music();
         }
 
+        // Función para regresar al menú principal
         function returnToMenu() {
             // Detener la música del nivel 1 al regresar al menú
             stopLevel1Music();
@@ -330,22 +336,14 @@
             playButtonSound();
         }
 
-        function changeMapMenuToMenu() {
-            // Muestra el menú principal
-            document.getElementById('menu').style.display = 'block';
-
-            // Oculta el menú de cambio de mapa
-            document.getElementById('changeMapMenu').style.display = 'none';
-
-            playButtonSound();
-        }
-
+        // Función para cambiar al menú de cambio de mapa
         function showChangeMapMenu() {
             // Pausar todos los sonidos
             jumpSound.pause();
             jumpSound.currentTime = 0;
             shootSound.pause();
             shootSound.currentTime = 0;
+
             // Oculta el menú principal
             document.getElementById('menu').style.display = 'none';
 
@@ -358,9 +356,8 @@
             playButtonSound();
         }
 
-
+        // Función para mostrar el menú de AstroRefugio
         function showAstroRefugio() {
-            
             // Oculta el menú principal
             document.getElementById('menu').style.display = 'none';
 
@@ -373,25 +370,7 @@
             playButtonSound();
         }
 
-        function checkPlayerPosition() {
-            const playerRect = player.getBoundingClientRect();
-            const level1Rect = document.getElementById('nivel1');
-
-            if (level1Rect) { // Verifica si el elemento del nivel 1 existe en el DOM
-                const level1Bounds = level1Rect.getBoundingClientRect();
-
-                // Comprueba si el jugador está dentro del nivel 1
-                const isInsideLevel1 = playerRect.top >= level1Bounds.top && playerRect.bottom <= level1Bounds.bottom;
-
-                // Verifica si la música del nivel 1 debe reproducirse o detenerse
-                if (isInsideLevel1) {
-                    playLevel1Music();
-                } else {
-                    stopLevel1Music();
-                }
-            }
-        }
-
+        // Función para cambiar el mapa seleccionado
         function changeMap(button, mapNumber) {
             // Desmarcar todos los botones
             const buttons = document.querySelectorAll('#changeMapMenu button');
@@ -413,11 +392,13 @@
             player.style.display = 'block';
         }
 
+        // Función para cambiar el mapa según la vista previa seleccionada
         function changeMapByPreview(mapNumber) {
             // Llama a la función existente changeMap con el número de mapa
             changeMap(document.querySelector(`#changeMapMenu button:nth-child(${mapNumber})`), mapNumber);
         }
 
+        // Evento de teclado para controlar el movimiento y acciones del jugador
         document.addEventListener('keydown', function(event) {
             if (event.key === 'a' || event.key === 'A') {
                 velocity = -5;
@@ -438,18 +419,21 @@
             }
         });
 
+        // Evento de teclado para detener el movimiento del jugador al soltar la tecla
         document.addEventListener('keyup', function(event) {
             if ((event.key === 'a' || event.key === 'A') || (event.key === 'd' || event.key === 'D')) {
                 velocity = 0;
             }
         });
 
+        // Función para voltear al jugador horizontalmente
         function flipPlayer(right) {
             const scaleX = right ? 1 : -1;
             player.style.transform = `scaleX(${scaleX})`;
             facingRight = right;
         }
 
+        // Función para mover al jugador
         function movePlayer() {
             const newLeft = (parseFloat(player.style.left) || 0) + velocity;
 
@@ -460,6 +444,7 @@
             requestAnimationFrame(movePlayer);
         }
 
+        // Función para que el jugador salte
         function jump() {
             if (!jumping) {
                 jumping = true;
@@ -487,21 +472,22 @@
             }
         }
 
+        // Función para que el jugador dispare
         function shoot() {
             shootSound.currentTime = 0;
             shootSound.play();
 
             const bullet = document.createElement('div');
             bullet.className = 'bullet';
-            bullet.direction = facingRight ? 'right' : 'left'; // Establece la dirección de la bala al disparar
+            bullet.direction = facingRight ? 'right' : 'left';
 
             const playerRect = player.getBoundingClientRect();
             const bulletLeft = facingRight ? playerRect.right : playerRect.left - 20;
-            const bulletTop = playerRect.top + player.offsetHeight * 0.4; // Ajusta la posición vertical de la bala
+            const bulletTop = playerRect.top + player.offsetHeight * 0.4;
 
             bullet.style.left = bulletLeft + 'px';
-            bullet.style.top = bulletTop + 'px'; // Establece la posición vertical de la bala
-            bullet.style.bottom = 'auto'; // Asegúrate de que la propiedad bottom esté en auto
+            bullet.style.top = bulletTop + 'px';
+            bullet.style.bottom = 'auto';
 
             document.body.appendChild(bullet);
 
@@ -521,6 +507,7 @@
             requestAnimationFrame(moveBullet);
         }
 
+        // Función para reproducir la música del nivel 1
         function playLevel1Music() {
             if (level1Music.paused) {
                 level1Music.play();
@@ -529,11 +516,13 @@
             }
         }
 
+        // Evento para repetir la música del nivel 1 al finalizar
         level1Music.addEventListener('ended', function() {
             this.currentTime = 0;
             this.play();
         });
 
+        // Inicia el movimiento del jugador
         movePlayer();
     </script>
 
