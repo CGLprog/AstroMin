@@ -398,8 +398,8 @@
             changeMap(document.querySelector(`#changeMapMenu button:nth-child(${mapNumber})`), mapNumber);
         }
 
-        // Evento de teclado para controlar el movimiento y acciones del jugador
-        document.addEventListener('keydown', function(event) {
+        // Función para manejar el evento de teclado
+        function handleKeyDown(event) {
             if (event.key === 'a' || event.key === 'A') {
                 velocity = -5;
                 flipPlayer(false);
@@ -415,9 +415,21 @@
                     canShoot = true;
                 }, 100); // 100 milisegundos de tiempo de recarga
             } else if (event.key === 'l' || event.key === 'L') {
-                playLevel1Music();
+                toggleMusic();
             }
-        });
+        }
+
+        // Función para alternar entre reproducir y detener la música del nivel 1
+        function toggleMusic() {
+            if (level1Music.paused) {
+                playLevel1Music();
+            } else {
+                stopLevel1Music();
+            }
+        }
+
+        // Evento de teclado para controlar el movimiento y acciones del jugador
+        document.addEventListener('keydown', handleKeyDown);
 
         // Evento de teclado para detener el movimiento del jugador al soltar la tecla
         document.addEventListener('keyup', function(event) {
