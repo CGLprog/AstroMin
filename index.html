@@ -260,297 +260,297 @@
     </div>
 
     <script>
-// Declaración de variables globales
-const player = document.getElementById('player');
-let velocity = 0;
-let jumping = false;
-let facingRight = true;
-let currentMap = null; // Variable para almacenar el mapa actual
-let canShoot = true; // Variable de control para el tiempo de recarga
-let musicPlaying = false; // Variable para almacenar el estado de reproducción de la música del nivel 1
+        // Declaración de variables globales
+        const player = document.getElementById('player');
+        let velocity = 0;
+        let jumping = false;
+        let facingRight = true;
+        let currentMap = null; // Variable para almacenar el mapa actual
+        let canShoot = true; // Variable de control para el tiempo de recarga
+        let musicPlaying = false; // Variable para almacenar el estado de reproducción de la música del nivel 1
 
-// Declaración de sonidos
-const jumpSound = new Audio('jump.mp3');
-const shootSound = new Audio('disparar.mp3');
-const buttonSound = new Audio('boton_inicial.mp3');
+        // Declaración de sonidos
+        const jumpSound = new Audio('jump.mp3');
+        const shootSound = new Audio('disparar.mp3');
+        const buttonSound = new Audio('boton_inicial.mp3');
 
-// Declaración de música
-const level1Music = new Audio('Musica Nivel 1.mp3');
-level1Music.loop = true; // Hacer que la música se repita al finalizar
+        // Declaración de música
+        const level1Music = new Audio('Musica Nivel 1.mp3');
+        level1Music.loop = true; // Hacer que la música se repita al finalizar
 
-// Función para reproducir el sonido del botón
-function playButtonSound() {
-    buttonSound.currentTime = 0;
-    buttonSound.play();
-}
-
-// Función para manejar el evento de presionar el botón de Mapa 1
-function playMap1Music() {
-    stopLevel1Music(); // Detener cualquier música que se esté reproduciendo actualmente
-    level1Music.play(); // Reproducir la música del nivel 1
-    musicPlaying = true; // Actualizar el estado de reproducción de la música
-}
-
-// Función para detener la música del nivel 1
-function stopLevel1Music() {
-    if (musicPlaying) {
-        level1Music.pause();
-        level1Music.currentTime = 0;
-        musicPlaying = false;
-    }
-}
-
-// Función para iniciar el juego
-function startGame() {
-    playButtonSound();
-
-    if (currentMap === null) {
-        alert("Por favor, selecciona un mapa antes de comenzar el juego.");
-        showChangeMapMenu();
-        return;
-    }
-
-    alert("¡Juego iniciado!");
-
-    // Cambiar el fondo según el mapa seleccionado
-    document.body.style.backgroundImage = `url('${currentMap}')`;
-
-    // Ocultar el menú principal
-    document.getElementById('menu').style.display = 'none';
-
-    // Mostrar al jugador
-    player.style.display = 'block';
-
-    // Reproducir música del nivel 1 al iniciar el juego
-    playLevel1Music();
-}
-
-// Función para regresar al menú principal
-function returnToMenu() {
-    // Detener la música del nivel 1 al regresar al menú
-    stopLevel1Music();
-
-    // Muestra el menú principal
-    document.getElementById('menu').style.display = 'block';
-
-    // Oculta el menú de cambio de mapa
-    document.getElementById('changeMapMenu').style.display = 'none';
-
-    // Oculta el menú de AstroRefugio
-    document.getElementById('astroRefugioMenu').style.display = 'none';
-
-    playButtonSound();
-}
-
-// Función para cambiar al menú de cambio de mapa
-function showChangeMapMenu() {
-    // Pausar todos los sonidos
-    jumpSound.pause();
-    jumpSound.currentTime = 0;
-    shootSound.pause();
-    shootSound.currentTime = 0;
-
-    // Oculta el menú principal
-    document.getElementById('menu').style.display = 'none';
-
-    // Muestra el menú de cambio de mapa
-    document.getElementById('changeMapMenu').style.display = 'block';
-
-    // Oculta al jugador
-    player.style.display = 'none';
-
-    playButtonSound();
-}
-
-// Función para mostrar el menú de AstroRefugio
-function showAstroRefugio() {
-    // Oculta el menú principal
-    document.getElementById('menu').style.display = 'none';
-
-    // Muestra el menú de AstroRefugio
-    document.getElementById('astroRefugioMenu').style.display = 'flex';
-
-    // Oculta al jugador
-    player.style.display = 'none';
-
-    playButtonSound();
-}
-
-// Función para cambiar el mapa seleccionado
-function changeMap(button, mapNumber) {
-    // Desmarcar todos los botones
-    const buttons = document.querySelectorAll('#changeMapMenu button');
-    buttons.forEach(btn => btn.classList.remove('selected'));
-
-    // Marcar el botón seleccionado
-    button.classList.add('selected');
-
-    // Actualizar el fondo actual
-    currentMap = mapNumber === 1 ? 'Espacio Profundo.png' : 'Galaxia Morada.jpg';
-
-    // Cambiar el fondo según el mapa seleccionado
-    document.body.style.backgroundImage = `url('${currentMap}')`;
-
-    // Oculta el menú de cambio de mapa
-    document.getElementById('changeMapMenu').style.display = 'none';
-
-    // Muestra al jugador
-    player.style.display = 'block';
-
-    // Si se selecciona el mapa 1, reproducir la música del mapa 1
-    if (mapNumber === 1) {
-        playMap1Music();
-    }
-}
-
-// Función para cambiar el mapa según la vista previa seleccionada
-function changeMapByPreview(mapNumber) {
-    // Llama a la función existente changeMap con el número de mapa
-    changeMap(document.querySelector(`#changeMapMenu button:nth-child(${mapNumber})`), mapNumber);
-}
-
-// Función para manejar el evento de teclado
-function handleKeyDown(event) {
-    // Verificar si el juego está en marcha antes de ejecutar acciones
-    if (!currentMap) return;
-
-    if (event.key === 'a' || event.key === 'A') {
-        velocity = -5;
-        flipPlayer(false);
-    } else if (event.key === 'd' || event.key === 'D') {
-        velocity = 5;
-        flipPlayer(true);
-    } else if (event.key === 'w' || event.key === 'W') {
-        if (!jumping) { // Verificar si ya está saltando
-            jump();
+        // Función para reproducir el sonido del botón
+        function playButtonSound() {
+            buttonSound.currentTime = 0;
+            buttonSound.play();
         }
-    } else if ((event.key === ' ' || event.key === 'Spacebar') && canShoot) {
-        shoot();
-        canShoot = false;
-        setTimeout(() => {
-            canShoot = true;
-        }, 100); // 100 milisegundos de tiempo de recarga
-    } else if (event.key === 'l' || event.key === 'L') {
-        toggleMusic();
-    }
-}
 
-// Función para alternar entre reproducir y detener la música del nivel 1
-function toggleMusic() {
-    if (musicPlaying) {
-        stopLevel1Music();
-    } else {
-        playLevel1Music();
-    }
-}
+        // Función para manejar el evento de presionar el botón de Mapa 1
+        function playMap1Music() {
+            stopLevel1Music(); // Detener cualquier música que se esté reproduciendo actualmente
+            level1Music.play(); // Reproducir la música del nivel 1
+            musicPlaying = true; // Actualizar el estado de reproducción de la música
+        }
 
-// Evento de teclado para controlar el movimiento y acciones del jugador
-document.addEventListener('keydown', handleKeyDown);
+        // Función para detener la música del nivel 1
+        function stopLevel1Music() {
+            if (musicPlaying) {
+                level1Music.pause();
+                level1Music.currentTime = 0;
+                musicPlaying = false;
+            }
+        }
 
-// Evento de teclado para detener el movimiento del jugador al soltar la tecla
-document.addEventListener('keyup', function(event) {
-    if ((event.key === 'a' || event.key === 'A') || (event.key === 'd' || event.key === 'D')) {
-        velocity = 0;
-    }
-});
+        // Función para iniciar el juego
+        function startGame() {
+            playButtonSound();
 
-// Función para voltear al jugador horizontalmente
-function flipPlayer(right) {
-    const scaleX = right ? 1 : -1;
-    player.style.transform = `scaleX(${scaleX})`;
-    facingRight = right;
-}
+            if (currentMap === null) {
+                alert("Por favor, selecciona un mapa antes de comenzar el juego.");
+                showChangeMapMenu();
+                return;
+            }
 
-// Función para mover al jugador
-function movePlayer() {
-    const newLeft = (parseFloat(player.style.left) || 0) + velocity;
+            alert("¡Juego iniciado!");
 
-    if (newLeft >= document.body.getBoundingClientRect().left && newLeft + player.offsetWidth <= document.body.getBoundingClientRect().right) {
-        player.style.left = newLeft + 'px';
-    }
+            // Cambiar el fondo según el mapa seleccionado
+            document.body.style.backgroundImage = `url('${currentMap}')`;
 
-    requestAnimationFrame(movePlayer);
-}
+            // Ocultar el menú principal
+            document.getElementById('menu').style.display = 'none';
 
-// Función para que el jugador salte
-function jump() {
-    if (!jumping) {
-        jumping = true;
-        let startTime = null;
+            // Mostrar al jugador
+            player.style.display = 'block';
 
-        jumpSound.currentTime = 0;
-        jumpSound.play();
+            // Reproducir música del nivel 1 al iniciar el juego
+            playLevel1Music();
+        }
 
-        function jumpAnimation(timestamp) {
-            if (!startTime) startTime = timestamp;
+        // Función para regresar al menú principal
+        function returnToMenu() {
+            // Detener la música del nivel 1 al regresar al menú
+            stopLevel1Music();
 
-            const progress = timestamp - startTime;
-            const displacement = -0.5 * 9.8 * (progress / (1000 / 2)) ** 2 + 120 * (progress / (1000 / 2));
+            // Muestra el menú principal
+            document.getElementById('menu').style.display = 'block';
 
-            if (displacement < 0) {
-                player.style.bottom = '10px';
-                jumping = false;
+            // Oculta el menú de cambio de mapa
+            document.getElementById('changeMapMenu').style.display = 'none';
+
+            // Oculta el menú de AstroRefugio
+            document.getElementById('astroRefugioMenu').style.display = 'none';
+
+            playButtonSound();
+        }
+
+        // Función para cambiar al menú de cambio de mapa
+        function showChangeMapMenu() {
+            // Pausar todos los sonidos
+            jumpSound.pause();
+            jumpSound.currentTime = 0;
+            shootSound.pause();
+            shootSound.currentTime = 0;
+
+            // Oculta el menú principal
+            document.getElementById('menu').style.display = 'none';
+
+            // Muestra el menú de cambio de mapa
+            document.getElementById('changeMapMenu').style.display = 'block';
+
+            // Oculta al jugador
+            player.style.display = 'none';
+
+            playButtonSound();
+        }
+
+        // Función para mostrar el menú de AstroRefugio
+        function showAstroRefugio() {
+            // Oculta el menú principal
+            document.getElementById('menu').style.display = 'none';
+
+            // Muestra el menú de AstroRefugio
+            document.getElementById('astroRefugioMenu').style.display = 'flex';
+
+            // Oculta al jugador
+            player.style.display = 'none';
+
+            playButtonSound();
+        }
+
+        // Función para cambiar el mapa seleccionado
+        function changeMap(button, mapNumber) {
+            // Desmarcar todos los botones
+            const buttons = document.querySelectorAll('#changeMapMenu button');
+            buttons.forEach(btn => btn.classList.remove('selected'));
+
+            // Marcar el botón seleccionado
+            button.classList.add('selected');
+
+            // Actualizar el fondo actual
+            currentMap = mapNumber === 1 ? 'Espacio Profundo.png' : 'Galaxia Morada.jpg';
+
+            // Cambiar el fondo según el mapa seleccionado
+            document.body.style.backgroundImage = `url('${currentMap}')`;
+
+            // Oculta el menú de cambio de mapa
+            document.getElementById('changeMapMenu').style.display = 'none';
+
+            // Muestra al jugador
+            player.style.display = 'block';
+
+            // Si se selecciona el mapa 1, reproducir la música del mapa 1
+            if (mapNumber === 1) {
+                playMap1Music();
+            }
+        }
+
+        // Función para cambiar el mapa según la vista previa seleccionada
+        function changeMapByPreview(mapNumber) {
+            // Llama a la función existente changeMap con el número de mapa
+            changeMap(document.querySelector(`#changeMapMenu button:nth-child(${mapNumber})`), mapNumber);
+        }
+
+        // Función para manejar el evento de teclado
+        function handleKeyDown(event) {
+            // Verificar si el juego está en marcha antes de ejecutar acciones
+            if (!currentMap) return;
+
+            if (event.key === 'a' || event.key === 'A') {
+                velocity = -5;
+                flipPlayer(false);
+            } else if (event.key === 'd' || event.key === 'D') {
+                velocity = 5;
+                flipPlayer(true);
+            } else if (event.key === 'w' || event.key === 'W') {
+                if (!jumping) { // Verificar si ya está saltando
+                    jump();
+                }
+            } else if ((event.key === ' ' || event.key === 'Spacebar') && canShoot) {
+                shoot();
+                canShoot = false;
+                setTimeout(() => {
+                    canShoot = true;
+                }, 100); // 100 milisegundos de tiempo de recarga
+            } else if (event.key === 'l' || event.key === 'L') {
+                toggleMusic();
+            }
+        }
+
+        // Función para alternar entre reproducir y detener la música del nivel 1
+        function toggleMusic() {
+            if (musicPlaying) {
+                stopLevel1Music();
             } else {
-                player.style.bottom = displacement + 'px';
+                playLevel1Music();
+            }
+        }
+
+        // Evento de teclado para controlar el movimiento y acciones del jugador
+        document.addEventListener('keydown', handleKeyDown);
+
+        // Evento de teclado para detener el movimiento del jugador al soltar la tecla
+        document.addEventListener('keyup', function(event) {
+            if ((event.key === 'a' || event.key === 'A') || (event.key === 'd' || event.key === 'D')) {
+                velocity = 0;
+            }
+        });
+
+        // Función para voltear al jugador horizontalmente
+        function flipPlayer(right) {
+            const scaleX = right ? 1 : -1;
+            player.style.transform = `scaleX(${scaleX})`;
+            facingRight = right;
+        }
+
+        // Función para mover al jugador
+        function movePlayer() {
+            const newLeft = (parseFloat(player.style.left) || 0) + velocity;
+
+            if (newLeft >= document.body.getBoundingClientRect().left && newLeft + player.offsetWidth <= document.body.getBoundingClientRect().right) {
+                player.style.left = newLeft + 'px';
+            }
+
+            requestAnimationFrame(movePlayer);
+        }
+
+        // Función para que el jugador salte
+        function jump() {
+            if (!jumping) {
+                jumping = true;
+                let startTime = null;
+
+                jumpSound.currentTime = 0;
+                jumpSound.play();
+
+                function jumpAnimation(timestamp) {
+                    if (!startTime) startTime = timestamp;
+
+                    const progress = timestamp - startTime;
+                    const displacement = -0.5 * 9.8 * (progress / (1000 / 2)) ** 2 + 120 * (progress / (1000 / 2));
+
+                    if (displacement < 0) {
+                        player.style.bottom = '10px';
+                        jumping = false;
+                    } else {
+                        player.style.bottom = displacement + 'px';
+                        requestAnimationFrame(jumpAnimation);
+                    }
+                }
+
                 requestAnimationFrame(jumpAnimation);
             }
         }
 
-        requestAnimationFrame(jumpAnimation);
-    }
-}
+        // Función para que el jugador dispare
+        function shoot() {
+            shootSound.currentTime = 0;
+            shootSound.play();
 
-// Función para que el jugador dispare
-function shoot() {
-    shootSound.currentTime = 0;
-    shootSound.play();
+            const bullet = document.createElement('div');
+            bullet.className = 'bullet';
+            bullet.direction = facingRight ? 'right' : 'left';
 
-    const bullet = document.createElement('div');
-    bullet.className = 'bullet';
-    bullet.direction = facingRight ? 'right' : 'left';
+            const playerRect = player.getBoundingClientRect();
+            const bulletLeft = facingRight ? playerRect.right : playerRect.left - 20;
+            const bulletTop = playerRect.top + player.offsetHeight * 0.4;
 
-    const playerRect = player.getBoundingClientRect();
-    const bulletLeft = facingRight ? playerRect.right : playerRect.left - 20;
-    const bulletTop = playerRect.top + player.offsetHeight * 0.4;
+            bullet.style.left = bulletLeft + 'px';
+            bullet.style.top = bulletTop + 'px';
+            bullet.style.bottom = 'auto';
 
-    bullet.style.left = bulletLeft + 'px';
-    bullet.style.top = bulletTop + 'px';
-    bullet.style.bottom = 'auto';
+            document.body.appendChild(bullet);
 
-    document.body.appendChild(bullet);
+            const bulletStep = 15;
 
-    const bulletStep = 15;
+            function moveBullet() {
+                const currentLeft = parseFloat(bullet.style.left) || 0;
+                bullet.style.left = (bullet.direction === 'right' ? currentLeft + bulletStep : currentLeft - bulletStep) + 'px';
 
-    function moveBullet() {
-        const currentLeft = parseFloat(bullet.style.left) || 0;
-        bullet.style.left = (bullet.direction === 'right' ? currentLeft + bulletStep : currentLeft - bulletStep) + 'px';
+                if ((bullet.direction === 'right' && currentLeft < window.innerWidth) || (bullet.direction === 'left' && currentLeft > 0)) {
+                    requestAnimationFrame(moveBullet);
+                } else {
+                    document.body.removeChild(bullet);
+                }
+            }
 
-        if ((bullet.direction === 'right' && currentLeft < window.innerWidth) || (bullet.direction === 'left' && currentLeft > 0)) {
             requestAnimationFrame(moveBullet);
-        } else {
-            document.body.removeChild(bullet);
         }
-    }
 
-    requestAnimationFrame(moveBullet);
-}
+        // Función para reproducir la música del nivel 1
+        function playLevel1Music() {
+            if (level1Music.paused) {
+                level1Music.play();
+                musicPlaying = true; // Actualizar el estado de reproducción de la música
+            }
+        }
 
-// Función para reproducir la música del nivel 1
-function playLevel1Music() {
-    if (level1Music.paused) {
-        level1Music.play();
-        musicPlaying = true; // Actualizar el estado de reproducción de la música
-    }
-}
+        // Evento para repetir la música del nivel 1 al finalizar
+        level1Music.addEventListener('ended', function() {
+            this.currentTime = 0;
+            this.play();
+        });
 
-// Evento para repetir la música del nivel 1 al finalizar
-level1Music.addEventListener('ended', function() {
-    this.currentTime = 0;
-    this.play();
-});
-
-// Inicia el movimiento del jugador
-movePlayer();
+        // Inicia el movimiento del jugador
+        movePlayer();
     </script>
 
 </body>
