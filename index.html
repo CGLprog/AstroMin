@@ -288,29 +288,90 @@ level1Music.loop = true; // Hacer que la música se repita al finalizar
 // Obtener los botones de dirección
 const directionButtons = document.getElementById('directionButtons').querySelectorAll('button');
 
-// Iterar sobre cada botón y agregar un evento de clic
+// Evento de clic para los botones de dirección
 directionButtons.forEach(button => {
-    button.addEventListener('click', function() {
+    button.addEventListener('mousedown', function() {
         const direction = this.getAttribute('data-direction');
-        handleDirection(direction);
+        handleDirection(direction, true);
+    });
+    button.addEventListener('mouseup', function() {
+        const direction = this.getAttribute('data-direction');
+        handleDirection(direction, false);
     });
 });
 
+// Función para alternar entre reproducir y detener la música del nivel 1
+function toggleMusic() {
+    if (musicPlaying) {
+        stopLevel1Music();
+    } else {
+        playLevel1Music();
+    }
+}
+
 // Función para manejar la dirección presionada
-function handleDirection(direction) {
+function handleDirection(direction, isPressed) {
     if (direction === 'up') {
-        // Simular presionar la tecla 'w'
-        handleKeyDown({ key: 'w' });
+        if (isPressed) {
+            // Simular presionar la tecla 'w'
+            handleKeyDown({ key: 'w' });
+        } else {
+            // Simular soltar la tecla 'w'
+            handleKeyUp({ key: 'w' });
+        }
     } else if (direction === 'right') {
-        // Simular presionar la tecla 'd'
-        handleKeyDown({ key: 'd' });
+        if (isPressed) {
+            // Simular presionar la tecla 'd'
+            handleKeyDown({ key: 'd' });
+        } else {
+            // Simular soltar la tecla 'd'
+            handleKeyUp({ key: 'd' });
+        }
     } else if (direction === 'left') {
-        // Simular presionar la tecla 'a'
-        handleKeyDown({ key: 'a' });
+        if (isPressed) {
+            // Simular presionar la tecla 'a'
+            handleKeyDown({ key: 'a' });
+        } else {
+            // Simular soltar la tecla 'a'
+            handleKeyUp({ key: 'a' });
+        }
     } else if (direction === 'down') {
         // Puedes implementar la lógica para el botón hacia abajo aquí
-        // Por ejemplo: handleKeyDown({ key: 's' });
+        // Por ejemplo, si es necesario, handleKeyDown({ key: 's' });
         // O simplemente dejarlo vacío si aún no se ha definido la funcionalidad
+    }
+}
+
+// Función para manejar el evento de teclado
+function handleKeyDown(event) {
+    // Verificar si el juego está en marcha antes de ejecutar acciones
+    if (!currentMap) return;
+
+    if (event.key === 'a' || event.key === 'A') {
+        velocity = -3; // Aumentar velocidad
+        flipPlayer(false);
+    } else if (event.key === 'd' || event.key === 'D') {
+        velocity = 3; // Aumentar velocidad
+        flipPlayer(true);
+    } else if (event.key === 'w' || event.key === 'W') {
+        if (!jumping) { // Verificar si ya está saltando
+            jump();
+        }
+    } else if ((event.key === ' ' || event.key === 'Spacebar') && canShoot) {
+        shoot();
+        canShoot = false;
+        setTimeout(() => {
+            canShoot = true;
+        }, 100); // 100 milisegundos de tiempo de recarga
+    } else if (event.key === 'l' || event.key === 'L') {
+        toggleMusic();
+    }
+}
+
+// Función para manejar el evento de soltar la tecla
+function handleKeyUp(event) {
+    if ((event.key === 'a' || event.key === 'A') || (event.key === 'd' || event.key === 'D')) {
+        velocity = 0; // Detener el movimiento
     }
 }
 
@@ -446,56 +507,7 @@ function changeMapByPreview(mapNumber) {
 }
 
 // Función para manejar el evento de teclado
-function handleKeyDown(event) {
-    // Verificar si el juego está en marcha antes de ejecutar acciones
-    if (!currentMap) return;
-
-    if (event.key === 'a' || event.key === 'A') {
-        velocity = -3; // Aumentar velocidad
-        flipPlayer(false);
-    } else if (event.key === 'd' || event.key === 'D') {
-        velocity = 3; // Aumentar velocidad
-        flipPlayer(true);
-    } else if (event.key === 'w' || event.key === 'W') {
-        if (!jumping) { // Verificar si ya está saltando
-            jump();
-        }
-    } else if ((event.key === ' ' || event.key === 'Spacebar') && canShoot) {
-        shoot();
-        canShoot = false;
-        setTimeout(() => {
-            canShoot = true;
-        }, 100); // 100 milisegundos de tiempo de recarga
-    } else if (event.key === 'l' || event.key === 'L') {
-        toggleMusic();
-    }
-}
-
-// Función para alternar entre reproducir y detener la música del nivel 1
-function toggleMusic() {
-    if (musicPlaying) {
-        stopLevel1Music();
-    } else {
-        playLevel1Music();
-    }
-}
-
-// Evento de teclado para controlar el movimiento y acciones del jugador
 document.addEventListener('keydown', handleKeyDown);
-
-// Evento de teclado para detener el movimiento del jugador al soltar la tecla
-document.addEventListener('keyup', function(event) {
-    if ((event.key === 'a' || event.key === 'A') || (event.key === 'd' || event.key === 'D')) {
-        velocity = 0;
-    }
-});
-
-// Función para voltear al jugador horizontalmente
-function flipPlayer(right) {
-    const scaleX = right ? 1 : -1;
-    player.style.transform = `scaleX(${scaleX})`;
-    facingRight = right;
-}
 
 // Función para mover al jugador
 function movePlayer() {
@@ -506,6 +518,13 @@ function movePlayer() {
     }
 
     requestAnimationFrame(movePlayer);
+}
+
+// Función para voltear al jugador horizontalmente
+function flipPlayer(right) {
+    const scaleX = right ? 1 : -1;
+    player.style.transform = `scaleX(${scaleX})`;
+    facingRight = right;
 }
 
 // Función para que el jugador salte
@@ -588,6 +607,5 @@ level1Music.addEventListener('ended', function() {
 // Inicia el movimiento del jugador
 movePlayer();
     </script>
-
 </body>
 </html>
