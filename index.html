@@ -69,8 +69,8 @@
 
         #player {
             position: absolute;
-            width: 100px;
-            height: 100px;
+            width: 70px; /* Ajustar el ancho del personaje */
+            height: 70px; /* Ajustar la altura del personaje */
             background-image: url('astronauta.png');
             background-size: contain;
             background-repeat: no-repeat;
@@ -259,6 +259,13 @@
         </div>
     </div>
 
+    <div id="directionButtons">
+        <button onclick="movePlayer('left')">←</button>
+        <button onclick="movePlayer('right')">→</button>
+        <button onclick="movePlayer('up')">↑</button>
+        <button onclick="movePlayer('down')">↓</button>
+    </div>
+
     <script>
         // Declaración de variables globales
         const player = document.getElementById('player');
@@ -404,36 +411,36 @@
         }
 
         // Función para cambiar el mapa según la vista previa seleccionada
-        function changeMapByPreview(mapNumber) {
-            // Llama a la función existente changeMap con el número de mapa
-            changeMap(document.querySelector(`#changeMapMenu button:nth-child(${mapNumber})`), mapNumber);
-        }
-
-        // Función para manejar el evento de teclado
-        function handleKeyDown(event) {
-            // Verificar si el juego está en marcha antes de ejecutar acciones
-            if (!currentMap) return;
-
-            if (event.key === 'a' || event.key === 'A') {
-                velocity = -5;
-                flipPlayer(false);
-            } else if (event.key === 'd' || event.key === 'D') {
-                velocity = 5;
-                flipPlayer(true);
-            } else if (event.key === 'w' || event.key === 'W') {
-                if (!jumping) { // Verificar si ya está saltando
-                    jump();
-                }
-            } else if ((event.key === ' ' || event.key === 'Spacebar') && canShoot) {
-                shoot();
-                canShoot = false;
-                setTimeout(() => {
-                    canShoot = true;
-                }, 100); // 100 milisegundos de tiempo de recarga
-            } else if (event.key === 'l' || event.key === 'L') {
-                toggleMusic();
+            function changeMapByPreview(mapNumber) {
+                // Llama a la función existente changeMap con el número de mapa
+                changeMap(document.querySelector(`#changeMapMenu button:nth-child(${mapNumber})`), mapNumber);
             }
+
+            // Función para manejar el evento de teclado
+            function handleKeyDown(event) {
+    // Verificar si el juego está en marcha antes de ejecutar acciones
+    if (!currentMap) return;
+
+    if (event.key === 'a' || event.key === 'A') {
+        velocity = -3; // Aumentar velocidad
+        flipPlayer(false);
+    } else if (event.key === 'd' || event.key === 'D') {
+        velocity = 3; // Aumentar velocidad
+        flipPlayer(true);
+    } else if (event.key === 'w' || event.key === 'W') {
+        if (!jumping) { // Verificar si ya está saltando
+            jump();
         }
+    } else if ((event.key === ' ' || event.key === 'Spacebar') && canShoot) {
+        shoot();
+        canShoot = false;
+        setTimeout(() => {
+            canShoot = true;
+        }, 100); // 100 milisegundos de tiempo de recarga
+    } else if (event.key === 'l' || event.key === 'L') {
+        toggleMusic();
+    }
+}
 
         // Función para alternar entre reproducir y detener la música del nivel 1
         function toggleMusic() {
