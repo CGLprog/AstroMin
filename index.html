@@ -125,22 +125,37 @@
         }
 
         #directionButtons {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-        }
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    display: flex;
+}
 
-        #directionButtons button {
-            margin-top: 10px;
-            font-size: 2em; /* Tamaño del texto */
-            width: 5em; /* Ancho del botón */
-            height: 5em; /* Altura del botón */
-            background-color: rgba(135, 206, 250, 0.8); /* Azul claro semi-transparente */
-            opacity: 0.8; /* Opacidad */
-            border: 2px solid rgba(135, 206, 250, 1); /* Borde azul claro */
-            color: white; /* Color del texto */
-            border-radius: 2%; /* Hace los botones un poco más circulares */
-        }
+#directionButtons button {
+    font-size: 4vw;
+    width: 10vw;
+    height: 10vw;
+    background-color: rgba(135, 206, 250, 0.8);
+    opacity: 0.8;
+    border: 2px solid rgba(135, 206, 250, 1);
+    color: white;
+    border-radius: 10%; /* Hace los botones un poco más redondos */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#directionButtons button:nth-child(1) {
+    margin-right: 5px;
+}
+
+#directionButtons button:nth-child(2) {
+    margin: 0 5px;
+}
+
+#directionButtons button:nth-child(3) {
+    margin-left: 5px;
+}
 
         #startButton {
             background-color: transparent;
