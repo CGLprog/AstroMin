@@ -575,11 +575,11 @@
             facingRight = right;
         }
 
-        // Función para que el jugador salte
         function jump() {
             if (!jumping) {
                 jumping = true;
                 let startTime = null;
+                let maxHeightReached = false;
 
                 jumpSound.currentTime = 0;
                 jumpSound.play();
@@ -588,13 +588,28 @@
                     if (!startTime) startTime = timestamp;
 
                     const progress = timestamp - startTime;
-                    const displacement = -0.5 * 9.8 * (progress / (1000 / 2)) ** 2 + 120 * (progress / (1000 / 2));
+                    let displacement = -0.5 * 9.8 * (progress / (1000 / 2)) ** 2 + 120 * (progress / (1000 / 2));
 
                     if (displacement < 0) {
                         player.style.bottom = '10px';
                         jumping = false;
                     } else {
-                        player.style.bottom = displacement + 'px';
+                        // Limitar la altura máxima al tamaño de la pantalla
+                        const maxScreenHeight = window.innerHeight - player.offsetHeight - 10; // 10px de margen inferior
+
+                        if (!maxHeightReached) {
+                            displacement = Math.min(displacement, maxScreenHeight);
+                            player.style.bottom = displacement + 'px';
+                        } else {
+                            // Descenso
+                            const newBottom = parseFloat(player.style.bottom) - 5; // Velocidad de descenso
+                            player.style.bottom = Math.max(newBottom, 10) + 'px'; // No descender por debajo del límite inferior
+                        }
+
+                        if (displacement >= maxScreenHeight) {
+                            maxHeightReached = true;
+                        }
+
                         requestAnimationFrame(jumpAnimation);
                     }
                 }
