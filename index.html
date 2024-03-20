@@ -125,41 +125,45 @@
         }
 
         #directionButtons {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    z-index: 3;
-}
+            display: none;
+        }
 
-#directionButtons button {
-    font-size: 2.5em; /* Tamaño de la fuente */
-    width: 80px; /* Ancho del botón */
-    height: 80px; /* Altura del botón */
-    border: none;
-    border-radius: 10px; /* Hacer los botones más cuadrados */
-    background-color: rgba(0, 128, 255, 0.5); /* Color azul claro semi-transparente */
-    color: white; /* Color del texto */
-    opacity: 1; /* Opacidad */
-    margin: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 128, 255, 0.5); /* Agregar sombra */
-}
+        #directionButtons {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            z-index: 3;
+        }
 
-#directionButtons button:active {
-    background-color: rgba(0, 0, 255, 0.8); /* Cambiar el color al presionar */
-    box-shadow: 0px 0px 20px rgba(0, 0, 255, 0.8); /* Aumentar la sombra al presionar */
-}
+        #directionButtons button {
+            font-size: 2.5em; /* Tamaño de la fuente */
+            width: 80px; /* Ancho del botón */
+            height: 80px; /* Altura del botón */
+            border: none;
+            border-radius: 10px; /* Hacer los botones más cuadrados */
+            background-color: rgba(0, 128, 255, 0.5); /* Color azul claro semi-transparente */
+            color: white; /* Color del texto */
+            opacity: 1; /* Opacidad */
+            margin: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 128, 255, 0.5); /* Agregar sombra */
+        }
 
-#directionButtons button:nth-child(1) {
-    margin-right: 5px;
-}
+        #directionButtons button:active {
+            background-color: rgba(0, 0, 255, 0.8); /* Cambiar el color al presionar */
+            box-shadow: 0px 0px 20px rgba(0, 0, 255, 0.8); /* Aumentar la sombra al presionar */
+        }
 
-#directionButtons button:nth-child(2) {
-    margin: 0 5px;
-}
+        #directionButtons button:nth-child(1) {
+            margin-right: 5px;
+        }
 
-#directionButtons button:nth-child(3) {
-    margin-left: 5px;
-}
+        #directionButtons button:nth-child(2) {
+            margin: 0 5px;
+        }
+
+        #directionButtons button:nth-child(3) {
+            margin-left: 5px;
+        }
 
         #startButton {
             background-color: transparent;
@@ -455,6 +459,10 @@
             // Mostrar al jugador
             player.style.display = 'block';
 
+            
+            // Mostrar los botones de dirección
+            document.getElementById('directionButtons').style.display = 'block';
+
             // Reproducir música del nivel 1 al iniciar el juego
             playLevel1Music();
         }
@@ -535,6 +543,9 @@
             if (mapNumber === 1) {
                 playMap1Music();
             }
+
+            // Llamar a startGame() después de seleccionar un mapa
+            startGame();
         }
 
         // Función para cambiar el mapa según la vista previa seleccionada
