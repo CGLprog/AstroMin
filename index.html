@@ -329,6 +329,7 @@
         const level1Music = new Audio('Musica Nivel 1.mp3');
         level1Music.loop = true; // Hacer que la música se repita al finalizar
         const level2Music = new Audio('Musica Nivel 2.mp3');
+        level2Music.loop = true; // Hacer que la música se repita al finalizar
 
         // Obtener los botones de dirección
         const directionButtons = document.getElementById('directionButtons').querySelectorAll('button');
@@ -344,6 +345,14 @@
                 handleDirection(direction, false);
             });
         });
+
+        // Función para manejar el evento de presionar el botón de Mapa 2
+        function playMap2Music() {
+            stopLevel1Music(); // Detener cualquier música que se esté reproduciendo actualmente
+            stopLevel2Music(); // Detener cualquier música del nivel 2 que se esté reproduciendo actualmente
+            level2Music.play(); // Reproducir la música del nivel 2
+            musicPlaying = true; // Actualizar el estado de reproducción de la música
+        }
 
         // Función para alternar entre reproducir y detener la música del nivel 1
         function toggleMusic() {
