@@ -328,6 +328,7 @@
         // Declaración de música
         const level1Music = new Audio('Musica Nivel 1.mp3');
         level1Music.loop = true; // Hacer que la música se repita al finalizar
+        const level2Music = new Audio('Musica Nivel 2.mp3');
 
         // Obtener los botones de dirección
         const directionButtons = document.getElementById('directionButtons').querySelectorAll('button');
@@ -441,6 +442,22 @@
             }
         }
 
+        // Función para reproducir la música del nivel 2
+        function playMap2Music() {
+            stopLevel1Music(); // Detener cualquier música que se esté reproduciendo actualmente
+            level2Music.play(); // Reproducir la música del nivel 2
+            musicPlaying = true; // Actualizar el estado de reproducción de la música
+        }
+
+        // Función para detener la música del nivel 2
+        function stopLevel2Music() {
+            if (musicPlaying) {
+                level2Music.pause();
+                level2Music.currentTime = 0;
+                musicPlaying = false;
+            }
+        }
+
         // Función para iniciar el juego
         function startGame() {
             playButtonSound();
@@ -460,12 +477,15 @@
             // Mostrar al jugador
             player.style.display = 'block';
 
-            
             // Mostrar los botones de dirección
             document.getElementById('directionButtons').style.display = 'block';
 
-            // Reproducir música del nivel 1 al iniciar el juego
-            playLevel1Music();
+            // Reproducir música del nivel correspondiente al iniciar el juego
+            if (currentMap === 'Espacio Profundo.png') {
+                playMap1Music();
+            } else if (currentMap === 'Galaxia Morada.jpg') {
+                playMap2Music();
+            }
         }
 
         // Función para regresar al menú principal
