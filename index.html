@@ -10,6 +10,8 @@
             overflow: hidden;
             background-size: cover;
             background-repeat: no-repeat;
+            width: 100%;
+            height: 100%; /* Ajusta el tamaño del cuerpo al tamaño de la ventana del navegador */
         }
 
         #menu {
@@ -448,8 +450,6 @@
                 showChangeMapMenu();
                 return;
             }
-
-            alert("¡Juego iniciado!");
 
             // Cambiar el fondo según el mapa seleccionado
             document.body.style.backgroundImage = `url('${currentMap}')`;
