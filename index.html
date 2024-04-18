@@ -323,7 +323,7 @@
     </style>
 </head>
 <body>
-    <div id="loginMenu">
+    <div id="loginMenu"> <!-- Aseguramos que el menú de inicio de sesión esté visible por defecto -->
         <h2>Iniciar Sesión</h2>
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <label for="username">Nombre de Usuario:</label>
@@ -338,7 +338,7 @@
         <p>¿No tienes una cuenta? <a href="#" id="showRegister">Regístrate aquí</a>.</p>
     </div>
     
-    <div id="registerMenu" style="display: none;">
+    <div id="registerMenu" style="display: none;"> <!-- Ocultamos el menú de registro por defecto -->
         <h2>Registrarse</h2>
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <label for="newUsername">Nuevo usuario:</label>
@@ -448,7 +448,7 @@
                 loginMenu.style.display = 'none';
                 registerMenu.style.display = 'block';
                 showLoginLink.textContent = '¿Ya tienes una cuenta? Inicia sesión';
-                window.location.href = '#registerMenu'; // Desplazar hacia el menú de registro
+                window.location.href = '#registerMenu';
             });
 
             showLoginLink.addEventListener('click', function(event) {
@@ -456,7 +456,7 @@
                 registerMenu.style.display = 'none';
                 loginMenu.style.display = 'block';
                 showLoginLink.textContent = '¿No tienes una cuenta? Regístrate aquí';
-                window.location.href = '#loginMenu'; // Desplazar hacia el menú de inicio de sesión
+                window.location.href = '#loginMenu';
             });
         });
         
