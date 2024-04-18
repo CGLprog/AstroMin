@@ -481,6 +481,18 @@
             // Mostrar otros elementos necesarios...
         }
 
+        // Mostrar automáticamente el menú de inicio de sesión al cargar la página
+        window.onload = function() {
+            var loginMenu = document.getElementById('loginMenu');
+            var registerMenu = document.getElementById('registerMenu');
+
+            loginMenu.style.display = 'block';
+            registerMenu.style.display = 'none';
+
+            // Actualizar la URL para reflejar el menú de inicio de sesión
+            history.replaceState(null, null, '#loginMenu');
+        };
+
         // Función para manejar la dirección presionada
         function handleDirection(direction, isPressed) {
             if (direction === 'up') {
