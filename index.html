@@ -335,7 +335,7 @@
             <button type="submit">Iniciar Sesión</button>
         </form>
     
-        <p>¿No tienes una cuenta? <a href="#registroMenu">Regístrate aquí</a>.</p>
+        <p>¿No tienes una cuenta? <a href="#" id="showRegister">Regístrate aquí</a>.</p>
     </div>
     
     <div id="registerMenu" style="display: none;">
@@ -437,7 +437,7 @@
             }
         }
 
-                document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('DOMContentLoaded', function() {
             const loginMenu = document.getElementById('loginMenu');
             const registerMenu = document.getElementById('registerMenu');
             const showRegisterLink = document.getElementById('showRegister');
@@ -447,14 +447,19 @@
                 event.preventDefault();
                 loginMenu.style.display = 'none';
                 registerMenu.style.display = 'block';
+                showLoginLink.textContent = '¿Ya tienes una cuenta? Inicia sesión';
+                window.location.href = '#registerMenu'; // Desplazar hacia el menú de registro
             });
 
             showLoginLink.addEventListener('click', function(event) {
                 event.preventDefault();
                 registerMenu.style.display = 'none';
                 loginMenu.style.display = 'block';
+                showLoginLink.textContent = '¿No tienes una cuenta? Regístrate aquí';
+                window.location.href = '#loginMenu'; // Desplazar hacia el menú de inicio de sesión
             });
         });
+        
 
         function loginSuccessful() {
             document.getElementById('loginMenu').style.display = 'none';
