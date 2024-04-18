@@ -14,11 +14,6 @@
             height: 100%; /* Ajusta el tamaño del cuerpo al tamaño de la ventana del navegador */
         }
 
-                /* Estilos para los formularios */
-                form {
-            color: white; /* Cambia el color del texto dentro de los formularios a negro */
-        }
-
         #menu {
             position: absolute;
             top: 50%;
@@ -280,74 +275,40 @@
     </style>
 </head>
 <body>
-    <!-- Formulario de inicio de sesión y registro -->
-    <div id="authMenu" style="display: none;">
-        <h2>Iniciar Sesión</h2>
-        <form id="loginForm">
-            <label for="loginEmail">Correo Electrónico:</label>
-            <input type="email" id="loginEmail" name="loginEmail" required>
-            <label for="loginPassword">Contraseña:</label>
-            <input type="password" id="loginPassword" name="loginPassword" required>
-            <button type="button" onclick="login()">Iniciar Sesión</button>
-        </form>
-        <h2>Registrarse</h2>
-        <form id="registerForm">
-            <label for="registerName">Nombre:</label>
-            <input type="text" id="registerName" name="registerName" required>
-            <label for="registerLastName">Apellidos:</label>
-            <input type="text" id="registerLastName" name="registerLastName" required>
-            <label for="registerEmail">Correo Electrónico:</label>
-            <input type="email" id="registerEmail" name="registerEmail" required>
-            <label for="registerPassword">Contraseña:</label>
-            <input type="password" id="registerPassword" name="registerPassword" required>
-            <button type="button" onclick="register()">Registrarse</button>
-        </form>
-    </div>
 
-    <!-- Menú principal -->
     <div id="menu">
         <img src="AstroMin.png" alt="Logo de AstroMin">
-        <button onclick="showAuthMenu()">Iniciar Sesión / Registrarse</button>
-        <button onclick="startGame()">Iniciar Juego</button>
+        <button onclick="startGame()" id="startButton">
+            <img src="Start Game.png" alt="Iniciar Juego">
+        </button>
         <button onclick="showChangeMapMenu()">Cambiar Mapa</button>
         <button onclick="showAstroRefugio()">Ir a AstroRefugio</button>
     </div>
 
-    <!-- Resto del HTML omitido -->
+    <div id="player"></div>
 
-    <?php
-        // Código PHP para la conexión y creación de la tabla de usuarios
-        $servername = "localhost";
-        $username = "username";
-        $password = "password";
-        $dbname = "myDB";
+    <div id="changeMapMenu">
+        <button onclick="changeMap(this, 1)">Mapa 1</button>
+        <button onclick="changeMap(this, 2)">Mapa 2</button>
+        <div id="previewImages">
+            <img src="Espacio Profundo.png" alt="Vista previa Mapa 1" onclick="changeMapByPreview(1)">
+            <img src="Galaxia Morada.jpg" alt="Vista previa Mapa 2" onclick="changeMapByPreview(2)">
+        </div>
+        <button onclick="returnToMenu()">Regresar al Menú</button>
+    </div>
 
-        // Crear conexión
-        $conn = new mysqli($servername, $username, $password, $dbname);
+    <div id="astroRefugioMenu">
+        <div id="astroRefugioContent">
+            <button onclick="returnToMenu()">Regresar</button>
+        </div>
+    </div>
 
-        // Verificar conexión
-        if ($conn->connect_error) {
-            die("La conexión ha fallado: " . $conn->connect_error);
-        }
-
-        // SQL para crear la tabla de usuarios
-        $sql = "CREATE TABLE IF NOT EXISTS usuarios (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            nombre VARCHAR(255) NOT NULL,
-            apellidos VARCHAR(255) NOT NULL,
-            correo VARCHAR(255) NOT NULL UNIQUE,
-            contraseña VARCHAR(255) NOT NULL
-        )";
-
-        if ($conn->query($sql) === TRUE) {
-            echo "Tabla de usuarios creada correctamente";
-        } else {
-            echo "Error al crear la tabla de usuarios: " . $conn->error;
-        }
-
-        // Cerrar conexión
-        $conn->close();
-    ?>
+    <div id="directionButtons">
+        <button data-direction="left">←</button>
+        <button data-direction="up">↑</button>
+        <button data-direction="right">→</button>
+        <!-- El botón para abajo está ausente temporalmente -->
+    </div>
 
     <script>
         // Declaración de variables globales
@@ -369,37 +330,6 @@
         level1Music.loop = true; // Hacer que la música se repita al finalizar
         const level2Music = new Audio('Musica Nivel 2.mp3');
         level2Music.loop = true; // Hacer que la música se repita al finalizar
-
-        // Función para mostrar el formulario de inicio de sesión
-        function showLoginForm() {
-            document.getElementById("loginForm").style.display = "block";
-            document.getElementById("registerForm").style.display = "none";
-            document.getElementById("loginButton").style.display = "none";
-            document.getElementById("registerButton").style.display = "block";
-        }
-
-        // Función para mostrar el formulario de registro
-        function showRegisterForm() {
-            document.getElementById("loginForm").style.display = "none";
-            document.getElementById("registerForm").style.display = "block";
-            document.getElementById("loginButton").style.display = "block";
-            document.getElementById("registerButton").style.display = "none";
-        }
-
-        // Función para iniciar sesión
-        function login() {
-            // Aquí puedes agregar la lógica para el inicio de sesión
-            // Por ejemplo, validar el correo electrónico y la contraseña
-            // Y luego redirigir al usuario al juego si las credenciales son correctas
-            alert("Función de inicio de sesión aún no implementada");
-        }
-
-        // Función para registrar un nuevo usuario
-        function register() {
-            // Aquí puedes agregar la lógica para el registro de nuevos usuarios
-            // Por ejemplo, recopilar la información del formulario y enviarla al servidor
-            alert("Función de registro aún no implementada");
-        }
 
         // Obtener los botones de dirección
         const directionButtons = document.getElementById('directionButtons').querySelectorAll('button');
