@@ -14,6 +14,54 @@
             height: 100%; /* Ajusta el tamaño del cuerpo al tamaño de la ventana del navegador */
         }
 
+        #loginMenu, #registerMenu {
+            width: 300px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        #loginMenu h2, #registerMenu h2 {
+            margin-bottom: 20px;
+        }
+
+        #loginMenu form, #registerMenu form {
+            margin-bottom: 20px;
+        }
+
+        #loginMenu input, #registerMenu input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #loginMenu button, #registerMenu button {
+            width: 100%;
+            padding: 10px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #loginMenu button:hover, #registerMenu button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Oculta cualquier otro contenido que no quieras mostrar inicialmente */
+        #menu,
+        #player,
+        #changeMapMenu,
+        #astroRefugioMenu,
+        #directionButtons {
+            display: none;
+        }
+
         #menu {
             position: absolute;
             top: 50%;
@@ -275,7 +323,33 @@
     </style>
 </head>
 <body>
-
+    <div id="loginMenu">
+        <h2>Iniciar Sesión</h2>
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+            <label for="username">Nombre de Usuario:</label>
+            <input type="text" id="username" name="username" required>
+    
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required>
+    
+            <button type="submit">Iniciar Sesión</button>
+        </form>
+    
+        <p>¿No tienes una cuenta? <a href="#registroMenu">Regístrate aquí</a>.</p>
+    </div>
+    
+    <div id="registerMenu" style="display: none;">
+        <h2>Registrarse</h2>
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+            <label for="newUsername">Nuevo usuario:</label>
+            <input type="text" id="newUsername" name="newUsername" required>
+            <label for="newPassword">Nueva contraseña:</label>
+            <input type="password" id="newPassword" name="newPassword" required>
+            <button type="submit">Registrarse</button>
+        </form>
+        <p>¿Ya tienes una cuenta? <a href="#" id="showLogin">Iniciar sesión</a></p>
+    </div>
+    
     <div id="menu">
         <img src="AstroMin.png" alt="Logo de AstroMin">
         <button onclick="startGame()" id="startButton">
@@ -284,9 +358,9 @@
         <button onclick="showChangeMapMenu()">Cambiar Mapa</button>
         <button onclick="showAstroRefugio()">Ir a AstroRefugio</button>
     </div>
-
+    
     <div id="player"></div>
-
+    
     <div id="changeMapMenu">
         <button onclick="changeMap(this, 1)">Mapa 1</button>
         <button onclick="changeMap(this, 2)">Mapa 2</button>
@@ -296,13 +370,13 @@
         </div>
         <button onclick="returnToMenu()">Regresar al Menú</button>
     </div>
-
+    
     <div id="astroRefugioMenu">
         <div id="astroRefugioContent">
             <button onclick="returnToMenu()">Regresar</button>
         </div>
     </div>
-
+    
     <div id="directionButtons">
         <button data-direction="left">←</button>
         <button data-direction="up">↑</button>
@@ -361,6 +435,39 @@
             } else {
                 playLevel1Music();
             }
+        }
+
+                document.addEventListener('DOMContentLoaded', function() {
+            const loginMenu = document.getElementById('loginMenu');
+            const registerMenu = document.getElementById('registerMenu');
+            const showRegisterLink = document.getElementById('showRegister');
+            const showLoginLink = document.getElementById('showLogin');
+
+            showRegisterLink.addEventListener('click', function(event) {
+                event.preventDefault();
+                loginMenu.style.display = 'none';
+                registerMenu.style.display = 'block';
+            });
+
+            showLoginLink.addEventListener('click', function(event) {
+                event.preventDefault();
+                registerMenu.style.display = 'none';
+                loginMenu.style.display = 'block';
+            });
+        });
+
+        function loginSuccessful() {
+            document.getElementById('loginMenu').style.display = 'none';
+            document.getElementById('menu').style.display = 'block';
+            document.getElementById('player').style.display = 'block';
+            // Mostrar otros elementos necesarios...
+        }
+
+        function registerSuccessful() {
+            document.getElementById('loginMenu').style.display = 'none';
+            document.getElementById('menu').style.display = 'block';
+            document.getElementById('player').style.display = 'block';
+            // Mostrar otros elementos necesarios...
         }
 
         // Función para manejar la dirección presionada
