@@ -50,14 +50,17 @@
         }
     }
 
-        // Función para verificar si el usuario está autenticado
+    // Función para verificar si el usuario está autenticado
     function checkAuthentication() {
-        // Supongamos que aquí verificas si el usuario está autenticado.
-        // Puedes hacerlo verificando si hay alguna información de sesión almacenada en el navegador, por ejemplo.
-        // Si el usuario está autenticado, puedes mostrar el menú principal
-        document.getElementById('menu').style.display = 'block';
-        // Si no está autenticado, podrías redirigirlo a la página de inicio de sesión
-        // window.location.href = 'login.html';
+        if (sessionStorage.getItem("loggedin") === "true") {
+            document.getElementById('menu').style.display = 'block';
+            document.getElementById('loginMenu').style.display = 'none';
+            document.getElementById('registerMenu').style.display = 'none';
+        } else {
+            document.getElementById('loginMenu').style.display = 'block';
+            document.getElementById('menu').style.display = 'none';
+            document.getElementById('registerMenu').style.display = 'none';
+        }
     }
 
     // Llama a la función para verificar la autenticación cuando la página se carga completamente
